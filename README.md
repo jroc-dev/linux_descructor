@@ -34,7 +34,7 @@ I won't include any. use at your own risk.
 
 ## Disclaimer
 
-USE AT YOUR OWN RISK. THIS BASH SCRIPT IS UNTESTED!
+USE AT YOUR OWN RISK. THIS BASH SCRIPT IS TESTED AND WORKING!
 
 ## License
 
